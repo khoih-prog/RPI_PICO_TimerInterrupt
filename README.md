@@ -43,7 +43,7 @@
   * [  6. RPM_Measure](examples/RPM_Measure)
   * [  7. SwitchDebounce](examples/SwitchDebounce)
   * [  8. TimerInterruptTest](examples/TimerInterruptTest)
-* [Example ISR_Timers_Array_Simple](#example-isr_timer_array_simple)
+* [Example ISR_Timers_Array_Simple](#example-isr_timers_array_simple)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [1. ISR_Timers_Array_Simple on RASPBERRY_PI_PICO](#1-isr_timers_array_simple-on-raspberry_pi_pico)
   * [2. TimerInterruptTest on RASPBERRY_PI_PICO](#2-timerinterrupttest-on-raspberry_pi_pico)
@@ -67,7 +67,7 @@
 
 ## Features
 
-This library enables you to use Interrupt from Hardware Timers on on RP2040-based boards such as RASPBERRY_PI_PICO, using [Earle Philhower's arduino-pico core](https://github.com/earlephilhower/arduino-pico). Support to [**Arduino-mbed RP2040** core](https://github.com/arduino/ArduinoCore-mbed) will be added in future releases.
+This library enables you to use Interrupt from Hardware Timers on on RP2040-based boards such as RASPBERRY_PI_PICO, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico). Support to [**Arduino-mbed RP2040** core](https://github.com/arduino/ArduinoCore-mbed) will be added in future releases.
 
 As **Hardware Timers are rare, and very precious assets** of any board, this library now enables you to use up to **16 ISR-based Timers, while consuming only 1 Hardware Timer**. Timers' interval is very long (**ulong millisecs**).
 
@@ -106,7 +106,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. RP2040-based boards such as RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040, etc.
+1. RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc.
 
 ---
 
@@ -124,7 +124,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Initial Releases v1.0.0
 
-1. Initial coding to support RP2040-based boards such as RASPBERRY_PI_PICO. etc. using [Earle Philhower's arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+1. Initial coding to support RP2040-based boards such as **RASPBERRY_PI_PICO**, etc. using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
 
 
 ---
@@ -195,7 +195,7 @@ To re-use the **new h-only** way, just
 The RPI_PICO system timer peripheral provides a global microsecond timebase for the system, and generates interrupts based on this timebase. It supports the following features:
   • A single 64-bit counter, incrementing once per microsecond
   • This counter can be read from a pair of latching registers, for race-free reads over a 32-bit bus.
-  • Four alarms: match on the lower 32 bits of counter, IRQ on match: TIMER_IRQ_0-TIMER_IRQ_3
+  • Four alarms: match on the lower 32 bits of counter, IRQ on match: **TIMER_IRQ_0-TIMER_IRQ_3**
 
 ---
 
@@ -214,7 +214,7 @@ You'll see blynkTimer Software is blocked while system is connecting to WiFi / I
 ## Usage
 
 Before using any Timer, you have to make sure the Timer has not been used by any other purpose.
-`Timer0, Timer1, Timer2 and Timer3` are supported for RP2040-based boards.
+`TIMER_IRQ_0, TIMER_IRQ_1, TIMER_IRQ_2 and TIMER_IRQ_3` are supported for RP2040-based boards.
 
 
 ### 1. Using only Hardware Timer directly
@@ -759,7 +759,7 @@ Sometimes, the library will only work if you update the board core to the latest
 
 ### Initial Releases v1.0.0
 
-1. Initial coding to support RP2040-based boards such as RASPBERRY_PI_PICO. etc. using [Earle Philhower's arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+1. Initial coding to support **RP2040-based boards such as RASPBERRY_PI_PICO**, etc. using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
 
 ---
 ---
@@ -779,7 +779,7 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 
 ## DONE
 
-1. Basic hardware timers for **RP2040-based boards such as RASPBERRY_PI_PICO**, using [Earle Philhower's arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+1. Basic hardware timers for **RP2040-based boards such as RASPBERRY_PI_PICO**, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
 2. More hardware-initiated software-enabled timers
 3. Longer time interval
 4. Add Version String 
