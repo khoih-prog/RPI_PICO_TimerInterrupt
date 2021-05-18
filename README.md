@@ -171,7 +171,7 @@ Another way to install is to:
 
 #### 1. For RP2040-based boards
  
- ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, GENERIC_RP2040, etc) boards***, you have to copy the file [RP2040 platform.txt](Packages_Patches/rp2040/hardware/rp2040/1.2.1) into rp2040 directory (~/.arduino15/packages/rp2040/hardware/rp2040/1.2.1). 
+ ***To be able to automatically detect and display BOARD_NAME on RP2040-based boards (RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, GENERIC_RP2040, etc) boards***, you have to copy the file [RP2040 platform.txt](Packages_Patches/rp2040/hardware/rp2040/1.2.1) into rp2040 directory (~/.arduino15/packages/rp2040/hardware/rp2040/1.2.1). 
 
 Supposing the rp2040 core version is 1.2.1. This file must be copied into the directory:
 
