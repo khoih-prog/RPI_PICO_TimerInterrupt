@@ -17,6 +17,7 @@
   * [Currently supported Boards](#currently-supported-boards)
   * [Important Notes about ISR](#important-notes-about-isr)
 * [Changelog](#changelog)
+  * [Releases v1.0.1](#releases-v101)
   * [Initial Releases v1.0.0](#initial-releases-v100)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
@@ -125,6 +126,10 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ---
 
 ## Changelog
+
+### Releases v1.0.1
+
+1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
 
 ### Initial Releases v1.0.0
 
@@ -595,7 +600,7 @@ While software timer, **programmed for 2s, is activated after more than 10.000s 
 
 ```
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.0
+RPi_Pico_TimerInterrupt v1.0.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
 [TISR] _count = 0 - 1000
@@ -624,7 +629,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.0
+RPi_Pico_TimerInterrupt v1.0.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 1000000
@@ -668,7 +673,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.0
+RPi_Pico_TimerInterrupt v1.0.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 2000000
@@ -749,7 +754,7 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.0
+RPi_Pico_TimerInterrupt v1.0.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 20000
@@ -796,6 +801,10 @@ Sometimes, the library will only work if you update the board core to the latest
 ---
 
 ## Releases
+
+### Releases v1.0.1
+
+1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
 
 ### Initial Releases v1.0.0
 
