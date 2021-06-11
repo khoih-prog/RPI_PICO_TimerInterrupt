@@ -45,7 +45,7 @@
   * [  2. Argument_None](examples/Argument_None)
   * [  3. Argument_Simple](examples/Argument_Simple)
   * [  4. Change_Interval](examples/Change_Interval).
-  * [  5. ISR_Timers_Array_Complex](examples/ISR_Timers_Array_Complex)
+  * [  5. ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
   * [  6. ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
   * [  7. RPM_Measure](examples/RPM_Measure)
   * [  8. SwitchDebounce](examples/SwitchDebounce)
@@ -57,7 +57,7 @@
   * [3. Change_Interval on RASPBERRY_PI_PICO](#3-change_interval-on-raspberry_pi_pico)
   * [4. SwitchDebounce on RASPBERRY_PI_PICO](#4-switchdebounce-on-raspberry_pi_pico)
   * [5. ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040](#5-isr_timers_array_simple-on-adafruit_feather_rp2040)
-  * [6. ISR_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040](#6-isr_timers_array_complex-on-adafruit_itsybitsy_rp2040)
+  * [6. ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040](#6-isr_16_timers_array_complex-on-adafruit_itsybitsy_rp2040)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -177,7 +177,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**RPI_PICO_TimerInterrupt** library](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt) by using [Library Manager](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt/installation). Search for **RPI_PICO_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**RPI_PICO_TimerInterrupt** library](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt) or [**RPI_PICO_TimerInterrupt** library](https://platformio.org/lib/show/12273/RPI_PICO_TimerInterrupt) by using [Library Manager](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt/installation). Search for **RPI_PICO_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 
@@ -187,6 +187,8 @@ Another way to install is to:
 ### Packages' Patches
 
 #### 1. For RP2040-based boards using [Earle Philhower arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+
+#### Important: Only necessary if you use core v1.4.0-
 
 #### 1.1 To use BOARD_NAME
 
@@ -441,7 +443,7 @@ void setup()
  2. [Argument_None](examples/Argument_None)
  3. [Argument_Simple](examples/Argument_Simple) 
  4. [Change_Interval](examples/Change_Interval) 
- 5. [ISR_Timers_Array_Complex](examples/ISR_Timers_Array_Complex)
+ 5. [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex)
  6. [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
  7. [RPM_Measure](examples/RPM_Measure)
  8. [SwitchDebounce](examples/SwitchDebounce) 
