@@ -17,6 +17,7 @@
   * [Currently supported Boards](#currently-supported-boards)
   * [Important Notes about ISR](#important-notes-about-isr)
 * [Changelog](#changelog)
+  * [Releases v1.1.0](#releases-v110)
   * [Releases v1.0.1](#releases-v101)
   * [Initial Releases v1.0.0](#initial-releases-v100)
 * [Prerequisites](#prerequisites)
@@ -44,16 +45,19 @@
   * [  2. Argument_None](examples/Argument_None)
   * [  3. Argument_Simple](examples/Argument_Simple)
   * [  4. Change_Interval](examples/Change_Interval).
-  * [  5. ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
-  * [  6. RPM_Measure](examples/RPM_Measure)
-  * [  7. SwitchDebounce](examples/SwitchDebounce)
-  * [  8. TimerInterruptTest](examples/TimerInterruptTest)
+  * [  5. ISR_Timers_Array_Complex](examples/ISR_Timers_Array_Complex)
+  * [  6. ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
+  * [  7. RPM_Measure](examples/RPM_Measure)
+  * [  8. SwitchDebounce](examples/SwitchDebounce)
+  * [  9. TimerInterruptTest](examples/TimerInterruptTest)
 * [Example ISR_Timers_Array_Simple](#example-isr_timers_array_simple)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [1. ISR_Timers_Array_Simple on RASPBERRY_PI_PICO](#1-isr_timers_array_simple-on-raspberry_pi_pico)
   * [2. TimerInterruptTest on RASPBERRY_PI_PICO](#2-timerinterrupttest-on-raspberry_pi_pico)
   * [3. Change_Interval on RASPBERRY_PI_PICO](#3-change_interval-on-raspberry_pi_pico)
   * [4. SwitchDebounce on RASPBERRY_PI_PICO](#4-switchdebounce-on-raspberry_pi_pico)
+  * [5. ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040](#5-isr_timers_array_simple-on-adafruit_feather_rp2040)
+  * [6. ISR_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040](#6-isr_timers_array_complex-on-adafruit_itsybitsy_rp2040)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -127,6 +131,12 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ## Changelog
 
+### Releases v1.1.0
+
+1. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
+2. Add `ISR_16_Timers_Array_Complex` examples.
+3. Fix examples' bug
+
 ### Releases v1.0.1
 
 1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
@@ -141,8 +151,8 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`Earle Philhower's arduino-pico core v1.4.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
+2. [`Earle Philhower's arduino-pico core v1.8.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 
 ---
 ---
@@ -431,10 +441,11 @@ void setup()
  2. [Argument_None](examples/Argument_None)
  3. [Argument_Simple](examples/Argument_Simple) 
  4. [Change_Interval](examples/Change_Interval) 
- 5. [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
- 6. [RPM_Measure](examples/RPM_Measure)
- 7. [SwitchDebounce](examples/SwitchDebounce) 
- 8. [TimerInterruptTest](examples/TimerInterruptTest)
+ 5. [ISR_Timers_Array_Complex](examples/ISR_Timers_Array_Complex)
+ 6. [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
+ 7. [RPM_Measure](examples/RPM_Measure)
+ 8. [SwitchDebounce](examples/SwitchDebounce) 
+ 9. [TimerInterruptTest](examples/TimerInterruptTest)
 
 ---
 ---
@@ -442,10 +453,6 @@ void setup()
 ### Example [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
 
 ```
-#if !( defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) )
-  #error This code is intended to run on the RASPBERRY_PI_PICO platform! Please check your Tools->Board setting.
-#endif
-
 // These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
@@ -600,7 +607,7 @@ While software timer, **programmed for 2s, is activated after more than 10.000s 
 
 ```
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.1
+RPi_Pico_TimerInterrupt v1.1.0
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
 [TISR] _count = 0 - 1000
@@ -629,7 +636,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.1
+RPi_Pico_TimerInterrupt v1.1.0
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 1000000
@@ -673,7 +680,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.1
+RPi_Pico_TimerInterrupt v1.1.0
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 2000000
@@ -754,7 +761,7 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.0.1
+RPi_Pico_TimerInterrupt v1.1.0
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 20000
@@ -769,6 +776,183 @@ SW Pressed total time ms = 320
 SW Press, from millis() = 79057
 SW Released, from millis() = 80238
 SW Pressed total time ms = 1181
+```
+
+---
+
+### 5. ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040
+
+The following is the sample terminal output when running example [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple) on ADAFRUIT_FEATHER_RP2040
+
+```
+
+Starting ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040
+RPi_Pico_TimerInterrupt v1.1.0
+CPU Frequency = 125 MHz
+[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
+[TISR] _count = 0 - 1000
+[TISR] add_repeating_timer_us = 1000
+Starting ITimer1 OK, millis() = 1701
+SimpleTimer : programmed 2000ms, current time ms : 11707, Delta ms : 11707
+Timer2s actual : 2000
+Timer5s actual : 5000
+SimpleTimer : programmed 2000ms, current time ms : 21707, Delta ms : 10000
+Timer2s actual : 2000
+Timer5s actual : 5000
+SimpleTimer : programmed 2000ms, current time ms : 31708, Delta ms : 10001
+Timer2s actual : 2000
+Timer5s actual : 5000
+```
+
+### 6. ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040
+
+The following is the sample terminal output when running example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) on ADAFRUIT_ITSYBITSY_RP2040
+
+```
+
+Starting ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040
+RPi_Pico_TimerInterrupt v1.1.0
+CPU Frequency = 125 MHz
+[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
+[TISR] _count = 0 - 10000
+[TISR] add_repeating_timer_us = 10000
+Starting ITimer OK, millis() = 1797
+SimpleTimer : 2, ms : 11798, Dms : 10001
+Timer : 0, programmed : 5000, actual : 5005
+Timer : 1, programmed : 10000, actual : 0
+Timer : 2, programmed : 15000, actual : 0
+Timer : 3, programmed : 20000, actual : 0
+Timer : 4, programmed : 25000, actual : 0
+Timer : 5, programmed : 30000, actual : 0
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 21800, Dms : 10002
+Timer : 0, programmed : 5000, actual : 4995
+Timer : 1, programmed : 10000, actual : 10010
+Timer : 2, programmed : 15000, actual : 15005
+Timer : 3, programmed : 20000, actual : 0
+Timer : 4, programmed : 25000, actual : 0
+Timer : 5, programmed : 30000, actual : 0
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 31802, Dms : 10002
+Timer : 0, programmed : 5000, actual : 4995
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15005
+Timer : 3, programmed : 20000, actual : 20010
+Timer : 4, programmed : 25000, actual : 25005
+Timer : 5, programmed : 30000, actual : 0
+Timer : 6, programmed : 35000, actual : 0
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 41804, Dms : 10002
+Timer : 0, programmed : 5000, actual : 4995
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15005
+Timer : 3, programmed : 20000, actual : 20010
+Timer : 4, programmed : 25000, actual : 25005
+Timer : 5, programmed : 30000, actual : 30010
+Timer : 6, programmed : 35000, actual : 35005
+Timer : 7, programmed : 40000, actual : 0
+Timer : 8, programmed : 45000, actual : 0
+Timer : 9, programmed : 50000, actual : 0
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 51807, Dms : 10003
+Timer : 0, programmed : 5000, actual : 4995
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 14995
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25005
+Timer : 5, programmed : 30000, actual : 30010
+Timer : 6, programmed : 35000, actual : 35005
+Timer : 7, programmed : 40000, actual : 40010
+Timer : 8, programmed : 45000, actual : 45005
+Timer : 9, programmed : 50000, actual : 50010
+Timer : 10, programmed : 55000, actual : 0
+Timer : 11, programmed : 60000, actual : 0
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 61809, Dms : 10002
+Timer : 0, programmed : 5000, actual : 5005
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15005
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25005
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35005
+Timer : 7, programmed : 40000, actual : 40010
+Timer : 8, programmed : 45000, actual : 45005
+Timer : 9, programmed : 50000, actual : 50010
+Timer : 10, programmed : 55000, actual : 55005
+Timer : 11, programmed : 60000, actual : 60010
+Timer : 12, programmed : 65000, actual : 0
+Timer : 13, programmed : 70000, actual : 0
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 71812, Dms : 10003
+Timer : 0, programmed : 5000, actual : 5005
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 15005
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 25005
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35005
+Timer : 7, programmed : 40000, actual : 40010
+Timer : 8, programmed : 45000, actual : 45005
+Timer : 9, programmed : 50000, actual : 50010
+Timer : 10, programmed : 55000, actual : 55005
+Timer : 11, programmed : 60000, actual : 60010
+Timer : 12, programmed : 65000, actual : 65005
+Timer : 13, programmed : 70000, actual : 70010
+Timer : 14, programmed : 75000, actual : 0
+Timer : 15, programmed : 80000, actual : 0
+SimpleTimer : 2, ms : 81814, Dms : 10002
+Timer : 0, programmed : 5000, actual : 5005
+Timer : 1, programmed : 10000, actual : 10000
+Timer : 2, programmed : 15000, actual : 14995
+Timer : 3, programmed : 20000, actual : 20000
+Timer : 4, programmed : 25000, actual : 24995
+Timer : 5, programmed : 30000, actual : 30000
+Timer : 6, programmed : 35000, actual : 35005
+Timer : 7, programmed : 40000, actual : 40000
+Timer : 8, programmed : 45000, actual : 45005
+Timer : 9, programmed : 50000, actual : 50010
+Timer : 10, programmed : 55000, actual : 55005
+Timer : 11, programmed : 60000, actual : 60010
+Timer : 12, programmed : 65000, actual : 65005
+Timer : 13, programmed : 70000, actual : 70010
+Timer : 14, programmed : 75000, actual : 75005
+Timer : 15, programmed : 80000, actual : 80010
 ```
 
 ---
@@ -802,6 +986,12 @@ Sometimes, the library will only work if you update the board core to the latest
 
 ## Releases
 
+### Releases v1.1.0
+
+1. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
+2. Add `ISR_16_Timers_Array_Complex` examples.
+3. Fix examples' bug
+
 ### Releases v1.0.1
 
 1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
@@ -833,6 +1023,7 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 3. Longer time interval
 4. Add Version String 
 5. Add Table of Contents
+6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
 
 ---
 ---

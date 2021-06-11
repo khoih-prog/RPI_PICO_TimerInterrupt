@@ -25,22 +25,19 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.0.1
+  Version: 1.1.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      11/05/2021 Initial coding to support RP2040-based boards such as RASPBERRY_PI_PICO. etc.
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
+  1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
 *****************************************************************************************************************************/
 
 #pragma once
 
 #ifndef ISR_TIMER_GENERIC_IMPL_H
 #define ISR_TIMER_GENERIC_IMPL_H
-
-#if !( defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) )
-  #error This code is intended to run on the RASPBERRY_PI_PICO platform! Please check your Tools->Board setting.
-#endif
 
 #include <string.h>
 

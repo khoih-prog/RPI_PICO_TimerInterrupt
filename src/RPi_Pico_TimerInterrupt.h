@@ -26,12 +26,13 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.0.1
+  Version: 1.1.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0   K Hoang      11/05/2021 Initial coding to support RP2040-based boards such as RASPBERRY_PI_PICO. etc.
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
+  1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
 *****************************************************************************************************************************/
 
 #pragma once
@@ -39,24 +40,40 @@
 #ifndef RPI_PICO_TIMERINTERRUPT_H
 #define RPI_PICO_TIMERINTERRUPT_H
 
-#if !( defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) )
-  #error This code is intended to run on the RASPBERRY_PI_PICO platform! Please check your Tools->Board setting.
-#else
+#if ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) ) && !defined(ARDUINO_ARCH_MBED) 
+  #if defined(USING_RPI_PICO_TIMER_INTERRUPT)
+    #undef USING_RPI_PICO_TIMER_INTERRUPT
+  #endif  
   #define USING_RPI_PICO_TIMER_INTERRUPT        true  
+#else
+  #error This code is intended to run on the non-mbed RP2040 arduino-pico platform! Please check your Tools->Board setting.
 #endif
 
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.0.1"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.1.0"
 #endif
 
 #ifndef TIMER_INTERRUPT_DEBUG
   #define TIMER_INTERRUPT_DEBUG      0
 #endif
 
-#include <stdio.h>
-#include "pico/stdlib.h"
-#include "hardware/timer.h"
-#include "hardware/irq.h"
+#if defined(ARDUINO_ARCH_MBED)
+  #warning Using MBED RP2040 platform
+  #include "pico.h"
+  //#include "pico/stdio.h"
+  #include "pico/time.h"
+  #include "hardware/gpio.h"
+  #include "hardware/uart.h"
+  
+  #include "hardware/timer.h"
+  #include "hardware/irq.h"
+#else
+  #warning Using RP2040 platform
+  #include <stdio.h>
+  #include "pico/stdlib.h"
+  #include "hardware/timer.h"
+  #include "hardware/irq.h"
+#endif
 
 #include "TimerInterrupt_Generic_Debug.h"
 
