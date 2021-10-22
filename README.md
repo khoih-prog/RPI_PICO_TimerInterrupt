@@ -16,10 +16,7 @@
   * [Why using ISR-based Hardware Timer Interrupt is better](#why-using-isr-based-hardware-timer-interrupt-is-better)
   * [Currently supported Boards](#currently-supported-boards)
   * [Important Notes about ISR](#important-notes-about-isr)
-* [Changelog](#changelog)
-  * [Releases v1.1.0](#releases-v110)
-  * [Releases v1.0.1](#releases-v101)
-  * [Initial Releases v1.0.0](#initial-releases-v100)
+* [Changelog](changelog.md)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
@@ -60,7 +57,6 @@
   * [6. ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040](#6-isr_16_timers_array_complex-on-adafruit_itsybitsy_rp2040)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
 * [Issues](#issues)
 * [TO DO](#to-do)
 * [DONE](#done)
@@ -129,30 +125,11 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ---
 ---
 
-## Changelog
-
-### Releases v1.1.0
-
-1. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
-2. Add `ISR_16_Timers_Array_Complex` examples.
-3. Fix examples' bug
-
-### Releases v1.0.1
-
-1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
-
-### Initial Releases v1.0.0
-
-1. Initial coding to support RP2040-based boards such as **RASPBERRY_PI_PICO**, etc. using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
-
-
----
----
 
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.15+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`Earle Philhower's arduino-pico core v1.9.4+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
+2. [`Earle Philhower's arduino-pico core v1.9.5+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 
 ---
 ---
@@ -609,7 +586,7 @@ While software timer, **programmed for 2s, is activated after more than 10.000s 
 
 ```
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
 [TISR] _count = 0 - 1000
@@ -638,7 +615,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 1000000
@@ -682,7 +659,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 2000000
@@ -763,7 +740,7 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
 [TISR] _count = 0 - 20000
@@ -789,7 +766,7 @@ The following is the sample terminal output when running example [ISR_Timers_Arr
 ```
 
 Starting ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
 [TISR] _count = 0 - 1000
@@ -813,7 +790,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 ```
 
 Starting ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040
-RPi_Pico_TimerInterrupt v1.1.0
+RPi_Pico_TimerInterrupt v1.1.1
 CPU Frequency = 125 MHz
 [TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
 [TISR] _count = 0 - 10000
@@ -982,25 +959,6 @@ If you get compilation errors, more often than not, you may need to install a ne
 
 Sometimes, the library will only work if you update the board core to the latest version because I am using newly added functions.
 
-
----
----
-
-## Releases
-
-### Releases v1.1.0
-
-1. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
-2. Add `ISR_16_Timers_Array_Complex` examples.
-3. Fix examples' bug
-
-### Releases v1.0.1
-
-1. Update README and Packages' Patches to match core arduino-pico core v1.4.0
-
-### Initial Releases v1.0.0
-
-1. Initial coding to support **RP2040-based boards such as RASPBERRY_PI_PICO**, etc. using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
 
 ---
 ---
