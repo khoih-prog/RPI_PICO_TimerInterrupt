@@ -1,9 +1,10 @@
 /****************************************************************************************************************************
   multiFileProject.h
-  For Teensy boards
+  RPi_Pico_ISR_Timer-Impl.h
+  For RP2040-based boards such as RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040.
   Written by Khoi Hoang
 
-  Built by Khoi Hoang https://github.com/khoih-prog/Teensy_TimerInterrupt
+  Built by Khoi Hoang https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
   Licensed under MIT license
   
   Now even you use all these new 16 ISR-based timers,with their maximum interval practically unlimited (limited only by
