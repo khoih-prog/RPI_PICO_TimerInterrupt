@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.1.1
+  Version: 1.2.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -33,6 +33,7 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
 *****************************************************************************************************************************/
 
 #pragma once
@@ -40,159 +41,7 @@
 #ifndef ISR_TIMER_GENERIC_H
 #define ISR_TIMER_GENERIC_H
 
-#if ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) ) && !defined(ARDUINO_ARCH_MBED) 
-  #if defined(USING_RPI_PICO_TIMER_INTERRUPT)
-    #undef USING_RPI_PICO_TIMER_INTERRUPT
-  #endif  
-  #define USING_RPI_PICO_TIMER_INTERRUPT        true  
-#else
-  #error This code is intended to run on the non-mbed RP2040 arduino-pico platform! Please check your Tools->Board setting.
-#endif
-
-#ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.1.1"
-#endif
-
-#include "TimerInterrupt_Generic_Debug.h"
-
-#include <stddef.h>
-
-#include <inttypes.h>
-
-#include "pico/multicore.h"
-
-#if defined(ARDUINO)
-  #if ARDUINO >= 100
-    #include <Arduino.h>
-  #else
-    #include <WProgram.h>
-  #endif
-#endif
-
-#define FLAG_VALUE    0xDEADBEEF
-
-#define RPI_PICO_ISR_Timer RPI_PICO_ISRTimer
-
-typedef void (*timer_callback)();
-typedef void (*timer_callback_p)(void *);
-
-class RPI_PICO_ISR_Timer 
-{
-
-  public:
-    // maximum number of timers
-#define RPI_PICO_MAX_TIMERS        16
-#define RPI_PICO_RUN_FOREVER       0
-#define RPI_PICO_RUN_ONCE          1
-
-    // constructor
-    RPI_PICO_ISR_Timer();
-
-    void init();
-
-    // this function must be called inside loop()
-    void run();
-
-    // Timer will call function 'f' every 'd' milliseconds forever
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setInterval(unsigned long d, timer_callback f);
-
-    // Timer will call function 'f' with parameter 'p' every 'd' milliseconds forever
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setInterval(unsigned long d, timer_callback_p f, void* p);
-
-    // Timer will call function 'f' after 'd' milliseconds one time
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setTimeout(unsigned long d, timer_callback f);
-
-    // Timer will call function 'f' with parameter 'p' after 'd' milliseconds one time
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setTimeout(unsigned long d, timer_callback_p f, void* p);
-
-    // Timer will call function 'f' every 'd' milliseconds 'n' times
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setTimer(unsigned long d, timer_callback f, unsigned n);
-
-    // Timer will call function 'f' with parameter 'p' every 'd' milliseconds 'n' times
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setTimer(unsigned long d, timer_callback_p f, void* p, unsigned n);
-
-    // updates interval of the specified timer
-    bool changeInterval(unsigned numTimer, unsigned long d);
-
-    // destroy the specified timer
-    void deleteTimer(unsigned numTimer);
-
-    // restart the specified timer
-    void restartTimer(unsigned numTimer);
-
-    // returns true if the specified timer is enabled
-    bool isEnabled(unsigned numTimer);
-
-    // enables the specified timer
-    void enable(unsigned numTimer);
-
-    // disables the specified timer
-    void disable(unsigned numTimer);
-
-    // enables all timers
-    void enableAll();
-
-    // disables all timers
-    void disableAll();
-
-    // enables the specified timer if it's currently disabled, and vice-versa
-    void toggle(unsigned numTimer);
-
-    // returns the number of used timers
-    unsigned getNumTimers();
-
-    // returns the number of available timers
-    unsigned getNumAvailableTimers() 
-    {
-      return RPI_PICO_MAX_TIMERS - numTimers;
-    };
-
-  private:
-    // deferred call constants
-#define RPI_PICO_DEFCALL_DONTRUN   0       // don't call the callback function
-#define RPI_PICO_DEFCALL_RUNONLY   1       // call the callback function but don't delete the timer
-#define RPI_PICO_DEFCALL_RUNANDDEL 2       // call the callback function and delete the timer
-
-    // low level function to initialize and enable a new timer
-    // returns the timer number (numTimer) on success or
-    // -1 on failure (f == NULL) or no free timers
-    int setupTimer(unsigned long d, void* f, void* p, bool h, unsigned n);
-
-    // find the first available slot
-    int findFirstFreeSlot();
-
-    typedef struct 
-    {
-      unsigned long prev_millis;        // value returned by the millis() function in the previous run() call
-      void*         callback;           // pointer to the callback function
-      void*         param;              // function parameter
-      bool          hasParam;           // true if callback takes a parameter
-      unsigned long delay;              // delay value
-      unsigned      maxNumRuns;         // number of runs to be executed
-      unsigned      numRuns;            // number of executed runs
-      bool          enabled;            // true if enabled
-      unsigned      toBeCalled;         // deferred function call (sort of) - N.B.: only used in run()
-    } timer_t;
-
-    volatile timer_t timer[RPI_PICO_MAX_TIMERS];
-
-    // actual number of timers in use (-1 means uninitialized)
-    volatile int numTimers;
-};
-
-
+#include "RPi_Pico_ISR_Timer.hpp"
 #include "RPi_Pico_ISR_Timer-Impl.h"
 
 #endif    // ISR_TIMER_GENERIC_H

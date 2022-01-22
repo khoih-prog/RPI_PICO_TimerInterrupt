@@ -11,6 +11,7 @@
 
 ## Table of Contents
 
+* [Important Change from v1.2.0](#Important-Change-from-v120)
 * [Why do we need this RPI_PICO_TimerInterrupt library](#why-do-we-need-this-rpi_pico_timerinterrupt-library)
   * [Features](#features)
   * [Why using ISR-based Hardware Timer Interrupt is better](#why-using-isr-based-hardware-timer-interrupt-is-better)
@@ -47,6 +48,7 @@
   * [  7. RPM_Measure](examples/RPM_Measure)
   * [  8. SwitchDebounce](examples/SwitchDebounce)
   * [  9. TimerInterruptTest](examples/TimerInterruptTest)
+  * [ 10. **multiFileProject**](examples/multiFileProject) **New**
 * [Example ISR_Timers_Array_Simple](#example-isr_timers_array_simple)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [1. ISR_Timers_Array_Simple on RASPBERRY_PI_PICO](#1-isr_timers_array_simple-on-raspberry_pi_pico)
@@ -67,6 +69,10 @@
 
 ---
 ---
+
+### Important Change from v1.2.0
+
+Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 
 ### Why do we need this [RPI_PICO_TimerInterrupt library](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt)
 
@@ -111,7 +117,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc.
+1. RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, Nano_RP2040_Connect, GENERIC_RP2040**, etc.
 
 ---
 
@@ -128,9 +134,12 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ## Prerequisites
 
-1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
-2. [`Earle Philhower's arduino-pico core v1.9.5+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
-
+1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
+2. [`Earle Philhower's arduino-pico core v1.9.14+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+3. To use with certain example
+   - [`SimpleTimer library`](https://github.com/jfturcot/SimpleTimer) for [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple) and [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) examples.
+   
+   
 ---
 ---
 
@@ -202,24 +211,26 @@ With core after v1.4.0, this step is not necessary anymore thanks to the PR [Add
 
 ### HOWTO Fix `Multiple Definitions` Linker Error
 
-The current library implementation, using **xyz-Impl.h instead of standard xyz.cpp**, possibly creates certain `Multiple Definitions` Linker error in certain use cases. Although it's simple to just modify several lines of code, either in the library or in the application, the library is adding 2 more source directories
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
 
-1. **scr_h** for new h-only files
-2. **src_cpp** for standard h/cpp files
+You can include these `.hpp` or `.h` files
 
-besides the standard **src** directory.
+```
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "RPi_Pico_TimerInterrupt.h"      //https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
 
-To use the **old standard cpp** way, locate this library' directory, then just 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
+#include "RPi_Pico_ISR_Timer.hpp"         //https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
+```
 
-1. **Delete the all the files in src directory.**
-2. **Copy all the files in src_cpp directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
+in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-To re-use the **new h-only** way, just 
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "RPi_Pico_ISR_Timer.h"           //https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
+```
 
-1. **Delete the all the files in src directory.**
-2. **Copy the files in src_h directory into src.**
-3. Close then reopen the application code in Arduino IDE, etc. to recompile from scratch.
+Check the new [**multiFileProject** example](examples/multiFileProject) for a `HOWTO` demo.
 
 ---
 ---
@@ -425,6 +436,7 @@ void setup()
  7. [RPM_Measure](examples/RPM_Measure)
  8. [SwitchDebounce](examples/SwitchDebounce) 
  9. [TimerInterruptTest](examples/TimerInterruptTest)
+10. [**multiFileProject**](examples/multiFileProject). **New**
 
 ---
 ---
@@ -438,10 +450,13 @@ void setup()
 #define TIMER_INTERRUPT_DEBUG         1
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "RPi_Pico_TimerInterrupt.h"
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "RPi_Pico_ISR_Timer.h"
 
-#include <SimpleTimer.h>              // https://github.com/schinken/SimpleTimer
+#include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
 
 // Init RPI_PICO_Timer
 RPI_PICO_Timer ITimer1(1);
@@ -539,17 +554,18 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.print(F("\nStarting ISR_Timers_Array_Simple on "));
-  Serial.println(BOARD_NAME);
+  Serial.print(F("\nStarting ISR_Timers_Array_Simple on ")); Serial.println(BOARD_NAME);
   Serial.println(RPI_PICO_TIMER_INTERRUPT_VERSION);
   Serial.print(F("CPU Frequency = ")); Serial.print(F_CPU / 1000000); Serial.println(F(" MHz"));
 
-  if (ITimer1.attachInterruptInterval(TIMER_INTERVAL_MS *1000, TimerHandler))
+  if (ITimer1.attachInterruptInterval(TIMER_INTERVAL_MS * 1000, TimerHandler))
   {
     Serial.print(F("Starting ITimer1 OK, millis() = ")); Serial.println(millis());
   }
   else
     Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
+
+  previousMillis5s = previousMillis2s = millis();  
 
   ISR_timer.setInterval(2000L, doingSomething2s);
   ISR_timer.setInterval(5000L, doingSomething5s);
@@ -585,15 +601,12 @@ The following is the sample terminal output when running example [ISR_Timers_Arr
 While software timer, **programmed for 2s, is activated after more than 10.000s !!!**
 
 ```
+
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.1
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
-[TISR] _count = 0 - 1000
-[TISR] add_repeating_timer_us = 1000
-Starting ITimer1 OK, millis() = 1707
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 3 , _fre = 1000000.00
-[TISR] _count = 0 - 1000
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
+[TISR] _count = 0-1000
 [TISR] add_repeating_timer_us = 1000
 Starting  ITimer3 OK, millis() = 1707
 SimpleTimer : programmed 2000ms, current time ms : 11707, Delta ms : 11707
@@ -615,15 +628,15 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.1
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
-[TISR] _count = 0 - 1000000
-[TISR] timer_set_alarm_value (us) = 1000000
-Starting  ITimer0 OK, millis() = 1781
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
-[TISR] _count = 0 - 3000000
-[TISR] timer_set_alarm_value (us) = 3000000
+[TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 1.00
+[TISR] _count = 0-1000000
+[TISR] add_repeating_timer_us = 1000000
+Starting ITimer0 OK, millis() = 882
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 0.33
+[TISR] _count = 0-3000000
+[TISR] add_repeating_timer_us = 3000000
 Starting  ITimer1 OK, millis() = 1782
 ITimer0 called, millis() = 2781
 ITimer0 called, millis() = 3781
@@ -659,14 +672,14 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.1
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
-[TISR] _count = 0 - 2000000
+[TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 0.50
+[TISR] _count = 0-2000000
 [TISR] add_repeating_timer_us = 2000000
-Starting  ITimer0 OK, millis() = 1544
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
-[TISR] _count = 0 - 5000000
+Starting  ITimer0 OK, millis() = 2363
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 0.20
+[TISR] _count = 0-5000000
 [TISR] add_repeating_timer_us = 5000000
 Starting  ITimer1 OK, millis() = 1544
 ITimer0: millis() = 3544
@@ -740,10 +753,10 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.1.1
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 0 , _fre = 1000000.00
-[TISR] _count = 0 - 20000
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 50.00
+[TISR] _count = 0-20000
 [TISR] add_repeating_timer_us = 20000
 Starting  ITimer1 OK, millis() = 1302
 SW Press, from millis() = 77377
@@ -764,12 +777,11 @@ SW Pressed total time ms = 1181
 The following is the sample terminal output when running example [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple) on ADAFRUIT_FEATHER_RP2040
 
 ```
-
-Starting ISR_Timers_Array_Simple on ADAFRUIT_FEATHER_RP2040
-RPi_Pico_TimerInterrupt v1.1.1
+Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
-[TISR] _count = 0 - 1000
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
+[TISR] _count = 0-1000
 [TISR] add_repeating_timer_us = 1000
 Starting ITimer1 OK, millis() = 1701
 SimpleTimer : programmed 2000ms, current time ms : 11707, Delta ms : 11707
@@ -788,12 +800,11 @@ Timer5s actual : 5000
 The following is the sample terminal output when running example [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) on ADAFRUIT_ITSYBITSY_RP2040
 
 ```
-
-Starting ISR_16_Timers_Array_Complex on ADAFRUIT_ITSYBITSY_RP2040
-RPi_Pico_TimerInterrupt v1.1.1
+Starting ISR_16_Timers_Array_Complex on RASPBERRY_PI_PICO
+RPi_Pico_TimerInterrupt v1.2.0
 CPU Frequency = 125 MHz
-[TISR] RPI_PICO_TimerInterrupt: _timerNo = 1 , _fre = 1000000.00
-[TISR] _count = 0 - 10000
+[TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 100.00
+[TISR] _count = 0-10000
 [TISR] add_repeating_timer_us = 10000
 Starting ITimer OK, millis() = 1797
 SimpleTimer : 2, ms : 11798, Dms : 10001
@@ -983,7 +994,10 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 3. Longer time interval
 4. Add Version String 
 5. Add Table of Contents
-6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, etc.**) using the arduino-pico core
+6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, Nano_RP2040_Connect, etc.**) using the arduino-pico core
+7. Fix `multiple-definitions` linker error
+8. Optimize library code by using `reference-passing` instead of `value-passing`
+
 
 ---
 ---

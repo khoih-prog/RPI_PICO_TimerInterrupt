@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.1.1
+  Version: 1.2.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -33,6 +33,7 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
 *****************************************************************************************************************************/
 
 #pragma once
@@ -160,7 +161,7 @@ int RPI_PICO_ISR_Timer::findFirstFreeSlot()
 }
 
 
-int RPI_PICO_ISR_Timer::setupTimer(unsigned long d, void* f, void* p, bool h, unsigned n) 
+int RPI_PICO_ISR_Timer::setupTimer(const unsigned long& d, void* f, void* p, bool h, const unsigned& n) 
 {
   int freeTimer;
 
@@ -194,37 +195,37 @@ int RPI_PICO_ISR_Timer::setupTimer(unsigned long d, void* f, void* p, bool h, un
 }
 
 
-int RPI_PICO_ISR_Timer::setTimer(unsigned long d, timer_callback f, unsigned n) 
+int RPI_PICO_ISR_Timer::setTimer(const unsigned long& d, timer_callback f, const unsigned& n) 
 {
   return setupTimer(d, (void *)f, NULL, false, n);
 }
 
-int RPI_PICO_ISR_Timer::setTimer(unsigned long d, timer_callback_p f, void* p, unsigned n) 
+int RPI_PICO_ISR_Timer::setTimer(const unsigned long& d, timer_callback_p f, void* p, const unsigned& n) 
 {
   return setupTimer(d, (void *)f, p, true, n);
 }
 
-int RPI_PICO_ISR_Timer::setInterval(unsigned long d, timer_callback f) 
+int RPI_PICO_ISR_Timer::setInterval(const unsigned long& d, timer_callback f) 
 {
   return setupTimer(d, (void *)f, NULL, false, RPI_PICO_RUN_FOREVER);
 }
 
-int RPI_PICO_ISR_Timer::setInterval(unsigned long d, timer_callback_p f, void* p) 
+int RPI_PICO_ISR_Timer::setInterval(const unsigned long& d, timer_callback_p f, void* p) 
 {
   return setupTimer(d, (void *)f, p, true, RPI_PICO_RUN_FOREVER);
 }
 
-int RPI_PICO_ISR_Timer::setTimeout(unsigned long d, timer_callback f) 
+int RPI_PICO_ISR_Timer::setTimeout(const unsigned long& d, timer_callback f) 
 {
   return setupTimer(d, (void *)f, NULL, false, RPI_PICO_RUN_ONCE);
 }
 
-int RPI_PICO_ISR_Timer::setTimeout(unsigned long d, timer_callback_p f, void* p) 
+int RPI_PICO_ISR_Timer::setTimeout(const unsigned long& d, timer_callback_p f, void* p) 
 {
   return setupTimer(d, (void *)f, p, true, RPI_PICO_RUN_ONCE);
 }
 
-bool RPI_PICO_ISR_Timer::changeInterval(unsigned numTimer, unsigned long d) 
+bool RPI_PICO_ISR_Timer::changeInterval(const unsigned& numTimer, const unsigned long& d) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {
@@ -250,7 +251,7 @@ bool RPI_PICO_ISR_Timer::changeInterval(unsigned numTimer, unsigned long d)
   return false;
 }
 
-void RPI_PICO_ISR_Timer::deleteTimer(unsigned timerId) 
+void RPI_PICO_ISR_Timer::deleteTimer(const unsigned& timerId) 
 {
   if (timerId >= RPI_PICO_MAX_TIMERS) 
   {
@@ -282,7 +283,7 @@ void RPI_PICO_ISR_Timer::deleteTimer(unsigned timerId)
 }
 
 // function contributed by code@rowansimms.com
-void RPI_PICO_ISR_Timer::restartTimer(unsigned numTimer) 
+void RPI_PICO_ISR_Timer::restartTimer(const unsigned& numTimer) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {
@@ -299,7 +300,7 @@ void RPI_PICO_ISR_Timer::restartTimer(unsigned numTimer)
 }
 
 
-bool RPI_PICO_ISR_Timer::isEnabled(unsigned numTimer) 
+bool RPI_PICO_ISR_Timer::isEnabled(const unsigned& numTimer) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {
@@ -310,7 +311,7 @@ bool RPI_PICO_ISR_Timer::isEnabled(unsigned numTimer)
 }
 
 
-void RPI_PICO_ISR_Timer::enable(unsigned numTimer) 
+void RPI_PICO_ISR_Timer::enable(const unsigned& numTimer) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {
@@ -321,7 +322,7 @@ void RPI_PICO_ISR_Timer::enable(unsigned numTimer)
 }
 
 
-void RPI_PICO_ISR_Timer::disable(unsigned numTimer) 
+void RPI_PICO_ISR_Timer::disable(const unsigned& numTimer) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {
@@ -370,7 +371,7 @@ void RPI_PICO_ISR_Timer::disableAll()
 
 }
 
-void RPI_PICO_ISR_Timer::toggle(unsigned numTimer) 
+void RPI_PICO_ISR_Timer::toggle(const unsigned& numTimer) 
 {
   if (numTimer >= RPI_PICO_MAX_TIMERS) 
   {

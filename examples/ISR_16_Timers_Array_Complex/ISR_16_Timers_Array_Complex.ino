@@ -18,13 +18,6 @@
   The accuracy is nearly perfect compared to software timers. The most important feature is they're ISR-based timers
   Therefore, their executions are not blocked by bad-behaving functions / tasks.
   This important feature is absolutely necessary for mission-critical tasks.
-
-  Based on SimpleTimer - A timer library for Arduino.
-  Author: mromani@ottotecnica.com
-  Copyright (c) 2010 OTTOTECNICA Italy
-
-  Based on BlynkTimer.h
-  Author: Volodymyr Shymanskyy
 *****************************************************************************************************************************/
 /*
    Notes:
@@ -50,7 +43,10 @@
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 #define _TIMERINTERRUPT_LOGLEVEL_     4
 
+// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "RPi_Pico_TimerInterrupt.h"
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "RPi_Pico_ISR_Timer.h"
 
 #include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
@@ -70,7 +66,6 @@
 #define HW_TIMER_INTERVAL_US      10000L
 
 volatile uint32_t startMillis = 0;
-
 
 // You can select RPI_PICO_Timer from 0 to 3
 // Init RPI_PICO_Timer

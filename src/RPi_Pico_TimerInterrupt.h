@@ -26,7 +26,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.1.1
+  Version: 1.2.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,6 +34,7 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
 *****************************************************************************************************************************/
 
 #pragma once
@@ -51,30 +52,25 @@
 #endif
 
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.1.1"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.2.0"
+  
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MAJOR      1
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      2
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      0
+
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1002000  
 #endif
 
 #ifndef TIMER_INTERRUPT_DEBUG
   #define TIMER_INTERRUPT_DEBUG      0
 #endif
 
-#if defined(ARDUINO_ARCH_MBED)
-  #warning Using MBED RP2040 platform
-  #include "pico.h"
-  //#include "pico/stdio.h"
-  #include "pico/time.h"
-  #include "hardware/gpio.h"
-  #include "hardware/uart.h"
-  
-  #include "hardware/timer.h"
-  #include "hardware/irq.h"
-#else
-  #warning Using RP2040 platform
-  #include <stdio.h>
-  #include "pico/stdlib.h"
-  #include "hardware/timer.h"
-  #include "hardware/irq.h"
-#endif
+#include "Arduino.h"
+
+#include <stdio.h>
+#include "pico/stdlib.h"
+#include "hardware/timer.h"
+#include "hardware/irq.h"
 
 #include "TimerInterrupt_Generic_Debug.h"
 
@@ -107,7 +103,7 @@ class RPI_PICO_TimerInterrupt
 
     pico_timer_callback     _callback;        // pointer to the callback function
     float                   _frequency;       // Timer frequency
-    uint64_t                _timerCount;        // count to activate timer, in us
+    uint64_t                _timerCount;      // count to activate timer, in us
       
     struct repeating_timer  _timer;
 
@@ -118,20 +114,29 @@ class RPI_PICO_TimerInterrupt
       _timerNo  = timerNo;
       _callback = NULL;
     };
+    
+    #define TIM_CLOCK_FREQ      ( (float) 1000000.0f )
 
     // frequency (in hertz) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
-    bool setFrequency(float frequency, pico_timer_callback callback)
+    bool setFrequency(const float& frequency, pico_timer_callback callback)
     {
       if (_timerNo < MAX_RPI_PICO_NUM_TIMERS)
-      {             
-        // select timer frequency is 1MHz for better accuracy. We don't use 16-bit prescaler for now.
-        // Will use later if very low frequency is needed.
-        _frequency  = (float) 1000000;
-        _timerCount = (uint64_t) _frequency / frequency;
+      {            
+        if ( (frequency == 0.0f) || (frequency > 100000.0f) || (callback == NULL) )
+        {
+          TISR_LOGERROR(F("Error. frequency == 0, higher than 100KHz or callback == NULL "));
         
-        TISR_LOGWARN3(F("RPI_PICO_TimerInterrupt: _timerNo ="), _timerNo, F(", _fre ="), _frequency);
-        TISR_LOGWARN3(F("_count ="), (uint32_t) (_timerCount >> 32) , F("-"), (uint32_t) (_timerCount));
+          return false;
+        }
+        
+        // select timer frequency is 1MHz for better accuracy. We don't use 16-bit prescaler for now.
+        // Will use later if very low frequency is needed.       
+        _frequency  = frequency;
+        _timerCount = (uint64_t) TIM_CLOCK_FREQ / frequency;
+        
+        TISR_LOGWARN5(F("_timerNo = "), _timerNo, F(", Clock (Hz) = "), TIM_CLOCK_FREQ, F(", _fre (Hz) = "), _frequency);
+        TISR_LOGWARN3(F("_count = "), (uint32_t) (_timerCount >> 32) , F("-"), (uint32_t) (_timerCount));
         
         _callback = callback;
   
@@ -141,7 +146,7 @@ class RPI_PICO_TimerInterrupt
         cancel_repeating_timer(&_timer);
         add_repeating_timer_us(_timerCount, _callback, NULL, &_timer);
                
-        TISR_LOGWARN1(F("add_repeating_timer_us ="), _timerCount);
+        TISR_LOGWARN1(F("add_repeating_timer_us = "), _timerCount);
 
         return true;
       }
@@ -155,19 +160,19 @@ class RPI_PICO_TimerInterrupt
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
-    bool setInterval(unsigned long interval, pico_timer_callback callback)
+    bool setInterval(const unsigned long& interval, pico_timer_callback callback)
     {
       return setFrequency((float) (1000000.0f / interval), callback);
     }
 
-    bool attachInterrupt(float frequency, pico_timer_callback callback)
+    bool attachInterrupt(const float& frequency, pico_timer_callback callback)
     {
       return setFrequency(frequency, callback);
     }
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
-    bool attachInterruptInterval(unsigned long interval, pico_timer_callback callback)
+    bool attachInterruptInterval(const unsigned long& interval, pico_timer_callback callback)
     {
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }
