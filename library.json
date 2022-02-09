@@ -12,7 +12,7 @@
   "repository":
   {
     "type": "git",
-    "url": "//https://github.com/khoih-prog/RPI_PICO_TimerInterrupt"
+    "url": "https://github.com/khoih-prog/RPI_PICO_TimerInterrupt"
   },
   "homepage": "https://github.com/khoih-prog/RPI_PICO_TimerInterrupt",
   "export": {
