@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.3.0](#releases-v130)
   * [Releases v1.2.0](#releases-v120)
   * [Releases v1.1.1](#releases-v111)
   * [Releases v1.1.0](#releases-v110)
@@ -23,6 +24,11 @@
 ---
 
 ## Changelog
+
+### Releases v1.3.0
+
+1. Fix severe bug affecting time between the starts. Check [Enable fixed timing between timer calls (vs fixed time btw. end of timer call and next call as implemented) #3](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues/3)
+
 
 ### Releases v1.2.0
 

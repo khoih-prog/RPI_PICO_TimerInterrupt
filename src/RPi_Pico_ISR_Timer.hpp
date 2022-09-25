@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.2.0
+  Version: 1.3.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -33,13 +33,16 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
-  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error
+  1.3.0   K.Hoang      25/09/2022 Fix severe bug affecting time between the starts
 *****************************************************************************************************************************/
 
 #pragma once
 
 #ifndef ISR_TIMER_GENERIC_HPP
 #define ISR_TIMER_GENERIC_HPP
+
+////////////////////////////////////////////////////////////////
 
 #if ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) ) && !defined(ARDUINO_ARCH_MBED) 
   #if defined(USING_RPI_PICO_TIMER_INTERRUPT)
@@ -50,15 +53,19 @@
   #error This code is intended to run on the non-mbed RP2040 arduino-pico platform! Please check your Tools->Board setting.
 #endif
 
+////////////////////////////////////////////////////////////////
+
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.2.0"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.0"
   
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MAJOR      1
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      2
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      3
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      0
 
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1002000  
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003000  
 #endif
+
+////////////////////////////////////////////////////////////////
 
 #include "TimerInterrupt_Generic_Debug.h"
 
@@ -83,9 +90,10 @@
 typedef void (*timer_callback)();
 typedef void (*timer_callback_p)(void *);
 
+////////////////////////////////////////////////////////////////
+
 class RPI_PICO_ISR_Timer 
 {
-
   public:
     // maximum number of timers
 #define RPI_PICO_MAX_TIMERS        16
@@ -199,6 +207,7 @@ class RPI_PICO_ISR_Timer
     volatile int numTimers;
 };
 
+////////////////////////////////////////////////////////////////
 
 #endif    // ISR_TIMER_GENERIC_HPP
 

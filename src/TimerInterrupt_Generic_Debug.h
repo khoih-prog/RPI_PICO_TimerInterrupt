@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.2.0
+  Version: 1.3.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -33,7 +33,8 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
-  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error
+  1.3.0   K.Hoang      25/09/2022 Fix severe bug affecting time between the starts
  *****************************************************************************************************************************/
 
 #pragma once
@@ -41,11 +42,15 @@
 #ifndef TIMERINTERRUPT_GENERIC_DEBUG_H
 #define TIMERINTERRUPT_GENERIC_DEBUG_H
 
+////////////////////////////////////////////////////////////////
+
 #ifdef TIMERINTERRUPT_DEBUG_PORT
   #define TISR_DBG_PORT      TIMERINTERRUPT_DEBUG_PORT
 #else
   #define TISR_DBG_PORT      Serial
 #endif
+
+////////////////////////////////////////////////////////////////
 
 // Change _TIMERINTERRUPT_LOGLEVEL_ to set tracing and logging verbosity
 // 0: DISABLED: no logging

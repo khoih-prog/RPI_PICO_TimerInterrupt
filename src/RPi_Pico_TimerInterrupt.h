@@ -26,7 +26,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.2.0
+  Version: 1.3.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -34,7 +34,8 @@
   1.0.1   K Hoang      18/05/2021 Update README and Packages' Patches to match core arduino-pico core v1.4.0
   1.1.0   K Hoang      10/00/2021 Add support to new boards using the arduino-pico core
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
-  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error.
+  1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error
+  1.3.0   K.Hoang      25/09/2022 Fix severe bug affecting time between the starts
 *****************************************************************************************************************************/
 
 #pragma once
@@ -51,19 +52,25 @@
   #error This code is intended to run on the non-mbed RP2040 arduino-pico platform! Please check your Tools->Board setting.
 #endif
 
+////////////////////////////////////////////////////////////////
+
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.2.0"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.0"
   
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MAJOR      1
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      2
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      3
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      0
 
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1002000  
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003000  
 #endif
+
+////////////////////////////////////////////////////////////////
 
 #ifndef TIMER_INTERRUPT_DEBUG
   #define TIMER_INTERRUPT_DEBUG      0
 #endif
+
+////////////////////////////////////////////////////////////////
 
 #include "Arduino.h"
 
@@ -73,6 +80,8 @@
 #include "hardware/irq.h"
 
 #include "TimerInterrupt_Generic_Debug.h"
+
+////////////////////////////////////////////////////////////////
 
 /*
   To enable an alarm:
@@ -94,6 +103,7 @@ typedef RPI_PICO_TimerInterrupt RPI_PICO_Timer;
 
 typedef bool (*pico_timer_callback)  (struct repeating_timer *t);
 
+////////////////////////////////////////////////////////////////
 
 class RPI_PICO_TimerInterrupt
 {
@@ -103,7 +113,7 @@ class RPI_PICO_TimerInterrupt
 
     pico_timer_callback     _callback;        // pointer to the callback function
     float                   _frequency;       // Timer frequency
-    uint64_t                _timerCount;      // count to activate timer, in us
+    int64_t                 _timerCount;      // count to activate timer, in us
       
     struct repeating_timer  _timer;
 
@@ -114,6 +124,8 @@ class RPI_PICO_TimerInterrupt
       _timerNo  = timerNo;
       _callback = NULL;
     };
+
+    ////////////////////////////////////////////////////////////////
     
     #define TIM_CLOCK_FREQ      ( (float) 1000000.0f )
 
@@ -133,7 +145,7 @@ class RPI_PICO_TimerInterrupt
         // select timer frequency is 1MHz for better accuracy. We don't use 16-bit prescaler for now.
         // Will use later if very low frequency is needed.       
         _frequency  = frequency;
-        _timerCount = (uint64_t) TIM_CLOCK_FREQ / frequency;
+        _timerCount = (int64_t) (TIM_CLOCK_FREQ / frequency);
         
         TISR_LOGWARN5(F("_timerNo = "), _timerNo, F(", Clock (Hz) = "), TIM_CLOCK_FREQ, F(", _fre (Hz) = "), _frequency);
         TISR_LOGWARN3(F("_count = "), (uint32_t) (_timerCount >> 32) , F("-"), (uint32_t) (_timerCount));
@@ -143,10 +155,18 @@ class RPI_PICO_TimerInterrupt
         // static bool add_repeating_timer_us(int64_t delay_us, repeating_timer_callback_t callback, void *user_data, repeating_timer_t *out);
         // static bool add_repeating_timer_ms(int64_t delay_ms, repeating_timer_callback_t callback, void *user_data, repeating_timer_t *out);
         // bool cancel_repeating_timer (repeating_timer_t *timer);
+        //////////////////////////////////////////////////////////////////////////
+        // Important Notes
+        // delay_ms the repeat delay in milliseconds; if >0 then this is the delay between one callback ending and the next
+        // starting; if <0 then this is the negative of the time between the starts of the callbacks. 
+        // The value of 0 is treated as 1 microsecond
+        //////////////////////////////////////////////////////////////////////////
         cancel_repeating_timer(&_timer);
-        add_repeating_timer_us(_timerCount, _callback, NULL, &_timer);
+        
+        // Use negative value to select time between the starts of the callbacks
+        add_repeating_timer_us(-(_timerCount), _callback, NULL, &_timer);
                
-        TISR_LOGWARN1(F("add_repeating_timer_us = "), _timerCount);
+        TISR_LOGWARN1(F("add_repeating_timer_us between starts = "), _timerCount);
 
         return true;
       }
@@ -158,6 +178,8 @@ class RPI_PICO_TimerInterrupt
       }
     }
 
+    ////////////////////////////////////////////////////////////////
+
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
     bool setInterval(const unsigned long& interval, pico_timer_callback callback)
@@ -165,10 +187,14 @@ class RPI_PICO_TimerInterrupt
       return setFrequency((float) (1000000.0f / interval), callback);
     }
 
+    ////////////////////////////////////////////////////////////////
+
     bool attachInterrupt(const float& frequency, pico_timer_callback callback)
     {
       return setFrequency(frequency, callback);
     }
+
+    ////////////////////////////////////////////////////////////////
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
@@ -177,27 +203,37 @@ class RPI_PICO_TimerInterrupt
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }
 
+    ////////////////////////////////////////////////////////////////
+
     void detachInterrupt()
     {
       cancel_repeating_timer(&_timer);
     }
+
+    ////////////////////////////////////////////////////////////////
 
     void disableTimer()
     {
       cancel_repeating_timer(&_timer);
     }
 
-    // Duration (in milliseconds). Duration = 0 or not specified => run indefinitely
+    ////////////////////////////////////////////////////////////////
+
+    // Duration (in microseconds). Duration = 0 or not specified => run indefinitely
     void reattachInterrupt()
     {
-      add_repeating_timer_us(_timerCount, _callback, NULL, &_timer);
+      add_repeating_timer_us(-(_timerCount), _callback, NULL, &_timer);
     }
 
-    // Duration (in milliseconds). Duration = 0 or not specified => run indefinitely
+    ////////////////////////////////////////////////////////////////
+
+    // Duration (in microseconds). Duration = 0 or not specified => run indefinitely
     void enableTimer()
     {
-      add_repeating_timer_us(_timerCount, _callback, NULL, &_timer);
+      add_repeating_timer_us(-(_timerCount), _callback, NULL, &_timer);
     }
+
+    ////////////////////////////////////////////////////////////////
 
     // Just stop clock source, clear the count
     void stopTimer()
@@ -205,17 +241,24 @@ class RPI_PICO_TimerInterrupt
       cancel_repeating_timer(&_timer);
     }
 
+    ////////////////////////////////////////////////////////////////
+
     // Just reconnect clock source, start current count from 0
     void restartTimer()
     {
       cancel_repeating_timer(&_timer);
-      add_repeating_timer_us(_timerCount, _callback, NULL, &_timer);
+      add_repeating_timer_us(-(_timerCount), _callback, NULL, &_timer);
     }
+
+    ////////////////////////////////////////////////////////////////
 
     int8_t getTimer() __attribute__((always_inline))
     {
       return _timerNo;
     };
+
+    ////////////////////////////////////////////////////////////////
+    
 }; // class RPI_PICO_TimerInterrupt
 
 #endif    // RPI_PICO_TIMERINTERRUPT_H

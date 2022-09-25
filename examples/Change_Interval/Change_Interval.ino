@@ -42,7 +42,7 @@
 #include "RPi_Pico_TimerInterrupt.h"
 
 #ifndef LED_BUILTIN
-  #define LED_BUILTIN       25         // Pin D2 mapped to pin GPIO2/ADC12 of ESP32, control on-board LED
+  #define LED_BUILTIN       25
 #endif
 
 #define PIN_D1              1         // Pin D1 mapped to pin GPIO1 of RPI_PICO

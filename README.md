@@ -2,11 +2,12 @@
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/RPI_PICO_TimerInterrupt.svg?)](https://www.ardu-badge.com/RPI_PICO_TimerInterrupt)
 [![GitHub release](https://img.shields.io/github/release/khoih-prog/RPI_PICO_TimerInterrupt.svg)](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/releases)
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/main/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/RPI_PICO_TimerInterrupt.svg)](http://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues)
 
-<a href="https://www.buymeacoffee.com/khoihprog6" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
 
 ---
 ---
@@ -76,6 +77,8 @@
 
 Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
 
+---
+
 ### Why do we need this [RPI_PICO_TimerInterrupt library](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt)
 
 ## Features
@@ -119,7 +122,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 
 ### Currently supported Boards
 
-1. RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, Nano_RP2040_Connect, GENERIC_RP2040**, etc.
+1. RP2040-based boards such as **RASPBERRY_PI_PICO, RASPBERRY_PI_PICO_W, ADAFRUIT_FEATHER_RP2040, Nano_RP2040_Connect, GENERIC_RP2040**, etc., using [`arduino-pico core`](https://github.com/earlephilhower/arduino-pico)
 
 ---
 
@@ -137,7 +140,7 @@ The catch is **your function is now part of an ISR (Interrupt Service Routine), 
 ## Prerequisites
 
 1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
-2. [`Earle Philhower's arduino-pico core v1.10.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+2. [`Earle Philhower's arduino-pico core v2.5.4+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 3. To use with certain example
    - [`SimpleTimer library`](https://github.com/jfturcot/SimpleTimer) for [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple) and [ISR_16_Timers_Array_Complex](examples/ISR_16_Timers_Array_Complex) examples.
    
@@ -157,15 +160,15 @@ You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/
 Another way to install is to:
 
 1. Navigate to [**RPI_PICO_TimerInterrupt**](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt) page.
-2. Download the latest release `RPI_PICO_TimerInterrupt-master.zip`.
-3. Extract the zip file to `RPI_PICO_TimerInterrupt-master` directory 
-4. Copy whole `RPI_PICO_TimerInterrupt-master` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+2. Download the latest release `RPI_PICO_TimerInterrupt-main.zip`.
+3. Extract the zip file to `RPI_PICO_TimerInterrupt-main` directory 
+4. Copy whole `RPI_PICO_TimerInterrupt-main` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
 
 ### VS Code & PlatformIO
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**RPI_PICO_TimerInterrupt** library](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt) or [**RPI_PICO_TimerInterrupt** library](https://platformio.org/lib/show/12273/RPI_PICO_TimerInterrupt) by using [Library Manager](https://platformio.org/lib/show/12177/RPI_PICO_TimerInterrupt/installation). Search for **RPI_PICO_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**RPI_PICO_TimerInterrupt** library](https://registry.platformio.org/libraries/khoih-prog/RPI_PICO_TimerInterrupt) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/RPI_PICO_TimerInterrupt/installation). Search for **RPI_PICO_TimerInterrupt** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 
@@ -445,152 +448,8 @@ void setup()
 
 ### Example [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
 
-```
-// These define's must be placed at the beginning before #include "TimerInterrupt_Generic.h"
-// _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
-// Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
-#define TIMER_INTERRUPT_DEBUG         1
-#define _TIMERINTERRUPT_LOGLEVEL_     4
+https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/f2ca9ced6ef985653cb234a3268b237b0fa257f1/examples/ISR_Timers_Array_Simple/ISR_Timers_Array_Simple.ino#L23-L166
 
-// Can be included as many times as necessary, without `Multiple Definitions` Linker Error
-#include "RPi_Pico_TimerInterrupt.h"
-
-// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include "RPi_Pico_ISR_Timer.h"
-
-#include <SimpleTimer.h>              // https://github.com/jfturcot/SimpleTimer
-
-// Init RPI_PICO_Timer
-RPI_PICO_Timer ITimer1(1);
-
-RPI_PICO_ISR_Timer ISR_timer;
-
-#ifndef LED_BUILTIN
-  #define LED_BUILTIN       25
-#endif
-
-#define LED_TOGGLE_INTERVAL_MS        1000L
-
-// You have to use longer time here if having problem because Arduino AVR clock is low, 16MHz => lower accuracy.
-// Tested OK with 1ms when not much load => higher accuracy.
-#define TIMER_INTERVAL_MS            1L
-
-volatile uint32_t startMillis = 0;
-
-volatile uint32_t deltaMillis2s = 0;
-volatile uint32_t deltaMillis5s = 0;
-
-volatile uint32_t previousMillis2s = 0;
-volatile uint32_t previousMillis5s = 0;
-
-
-bool TimerHandler(struct repeating_timer *t)
-{
-  static bool toggle  = false;
-  static int timeRun  = 0;
-
-  ISR_timer.run();
-
-  // Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
-  if (++timeRun == ((LED_TOGGLE_INTERVAL_MS) / TIMER_INTERVAL_MS) )
-  {
-    timeRun = 0;
-
-    //timer interrupt toggles pin LED_BUILTIN
-    digitalWrite(LED_BUILTIN, toggle);
-    toggle = !toggle;
-  }
-
-  return true;
-}
-
-void doingSomething2s()
-{
-  unsigned long currentMillis  = millis();
-
-  deltaMillis2s    = currentMillis - previousMillis2s;
-  previousMillis2s = currentMillis;
-}
-
-void doingSomething5s()
-{
-  unsigned long currentMillis  = millis();
-
-  deltaMillis5s    = currentMillis - previousMillis5s;
-  previousMillis5s = currentMillis;
-}
-
-/////////////////////////////////////////////////
-
-#define SIMPLE_TIMER_MS        2000L
-
-// Init SimpleTimer
-SimpleTimer simpleTimer;
-
-// Here is software Timer, you can do somewhat fancy stuffs without many issues.
-// But always avoid
-// 1. Long delay() it just doing nothing and pain-without-gain wasting CPU power.Plan and design your code / strategy ahead
-// 2. Very long "do", "while", "for" loops without predetermined exit time.
-void simpleTimerDoingSomething2s()
-{
-  static unsigned long previousMillis = startMillis;
-
-  unsigned long currMillis = millis();
-
-  Serial.print(F("SimpleTimer : programmed ")); Serial.print(SIMPLE_TIMER_MS);
-  Serial.print(F("ms, current time ms : ")); Serial.print(currMillis);
-  Serial.print(F(", Delta ms : ")); Serial.println(currMillis - previousMillis);
-
-  Serial.print(F("Timer2s actual : ")); Serial.println(deltaMillis2s);
-  Serial.print(F("Timer5s actual : ")); Serial.println(deltaMillis5s);
-  
-  previousMillis = currMillis;
-}
-
-////////////////////////////////////////////////
-
-void setup()
-{
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  Serial.begin(115200);
-  while (!Serial);
-
-  Serial.print(F("\nStarting ISR_Timers_Array_Simple on ")); Serial.println(BOARD_NAME);
-  Serial.println(RPI_PICO_TIMER_INTERRUPT_VERSION);
-  Serial.print(F("CPU Frequency = ")); Serial.print(F_CPU / 1000000); Serial.println(F(" MHz"));
-
-  if (ITimer1.attachInterruptInterval(TIMER_INTERVAL_MS * 1000, TimerHandler))
-  {
-    Serial.print(F("Starting ITimer1 OK, millis() = ")); Serial.println(millis());
-  }
-  else
-    Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
-
-  previousMillis5s = previousMillis2s = millis();  
-
-  ISR_timer.setInterval(2000L, doingSomething2s);
-  ISR_timer.setInterval(5000L, doingSomething5s);
-
-  // You need this timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary.
-  simpleTimer.setInterval(SIMPLE_TIMER_MS, simpleTimerDoingSomething2s);
-}
-
-#define BLOCKING_TIME_MS      10000L
-
-void loop()
-{
-  // This unadvised blocking task is used to demonstrate the blocking effects onto the execution and accuracy to Software timer
-  // You see the time elapse of ISR_Timer still accurate, whereas very unaccurate for Software Timer
-  // The time elapse for 2000ms software timer now becomes 3000ms (BLOCKING_TIME_MS)
-  // While that of ISR_Timer is still prefect.
-  delay(BLOCKING_TIME_MS);
-
-  // You need this Software timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary
-  // You don't need to and never call ISR_Timer.run() here in the loop(). It's already handled by ISR timer.
-  simpleTimer.run();
-}
-```
 ---
 ---
 
@@ -605,7 +464,7 @@ While software timer, **programmed for 2s, is activated after more than 10.000s 
 ```
 
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
 [TISR] _count = 0-1000
@@ -630,7 +489,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 1.00
 [TISR] _count = 0-1000000
@@ -674,7 +533,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 0.50
 [TISR] _count = 0-2000000
@@ -755,7 +614,7 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 50.00
 [TISR] _count = 0-20000
@@ -780,7 +639,7 @@ The following is the sample terminal output when running example [ISR_Timers_Arr
 
 ```
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
 [TISR] _count = 0-1000
@@ -803,7 +662,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.2.0
+RPi_Pico_TimerInterrupt v1.3.0
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 100.00
 [TISR] _count = 0-10000
@@ -999,7 +858,7 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, Nano_RP2040_Connect, etc.**) using the arduino-pico core
 7. Fix `multiple-definitions` linker error
 8. Optimize library code by using `reference-passing` instead of `value-passing`
-
+9. Fix severe bug affecting time between the starts. Check [Enable fixed timing between timer calls (vs fixed time btw. end of timer call and next call as implemented) #3](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues/3)
 
 ---
 ---
@@ -1007,6 +866,14 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 ### Contributions and Thanks
 
 Many thanks for everyone for bug reporting, new feature suggesting, testing and contributing to the development of this library.
+
+1. [AndreasOKircher](https://github.com/AndreasOKircher) to report issue [Enable fixed timing between timer calls (vs fixed time btw. end of timer call and next call as implemented) #3](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues/3) leading to version v1.3.0 to fix `severe bug` affecting time between the starts
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/AndreasOKircher"><img src="https://github.com/AndreasOKircher.png" width="100px;" alt="AndreasOKircher"/><br /><sub><b>AndreasOKircher</b></sub></a><br /></td>
+  </tr> 
+</table>
 
 
 ---
@@ -1024,7 +891,7 @@ If you want to contribute to this project:
 
 ### License
 
-- The library is licensed under [MIT](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/master/LICENSE)
+- The library is licensed under [MIT](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/main/LICENSE)
 
 ---
 

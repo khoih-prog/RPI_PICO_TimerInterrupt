@@ -43,7 +43,7 @@
 #include "RPi_Pico_TimerInterrupt.h"
 
 #ifndef LED_BUILTIN
-  #define LED_BUILTIN       25        // Pin LED_BUILTIN mapped to pin GPIO25 of RPI_PICO, control on-board LED
+  #define LED_BUILTIN       25
 #endif
 
 #define PIN_D1              1         // Pin D1 mapped to pin GPIO1 of RPI_PICO
