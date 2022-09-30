@@ -80,6 +80,8 @@ RPI_PICO_ISR_Timer ISR_Timer;
 // Never use Serial.print inside this ISR. Will hang the system
 bool TimerHandler(struct repeating_timer *t)
 {
+  (void) t;
+  
   static bool toggle  = false;
   static int timeRun  = 0;
 

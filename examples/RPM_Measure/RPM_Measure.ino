@@ -69,6 +69,8 @@ volatile int debounceCounter;
 
 bool TimerHandler0(struct repeating_timer *t)
 {  
+  (void) t;
+  
   if ( !digitalRead(SWPin) && (debounceCounter >= DEBOUNCING_INTERVAL_MS / TIMER0_INTERVAL_MS ) )
   {
     //min time between pulses has passed

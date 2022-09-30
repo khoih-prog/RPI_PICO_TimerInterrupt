@@ -47,6 +47,8 @@ volatile pinStruct myOutputPins = { LED_BUILTIN, 0, 1 };
 
 bool TimerHandler(struct repeating_timer *t)
 {
+  (void) t;
+  
   static bool toggle = false;
 
   //timer interrupt toggles pins

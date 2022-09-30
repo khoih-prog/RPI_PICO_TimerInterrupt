@@ -52,6 +52,8 @@ volatile uint32_t Timer1Count = 0;
 
 bool TimerHandler0(struct repeating_timer *t)
 { 
+  (void) t;
+  
   static bool toggle0 = false;
 
   // Flag for checking to be sure ISR is working as Serial.print is not OK here in ISR
@@ -70,6 +72,8 @@ bool TimerHandler0(struct repeating_timer *t)
 
 bool TimerHandler1(struct repeating_timer *t)
 { 
+  (void) t;
+  
   static bool toggle1 = false;
 
   // Flag for checking to be sure ISR is working as Serial.print is not OK here in ISR

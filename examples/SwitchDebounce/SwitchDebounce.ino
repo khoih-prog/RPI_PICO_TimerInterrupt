@@ -64,6 +64,8 @@ volatile bool SWLongPressed = false;
 
 bool TimerHandler1(struct repeating_timer *t)
 { 
+  (void) t;
+  
   static unsigned int debounceCountSWPressed  = 0;
   static unsigned int debounceCountSWReleased = 0;
 

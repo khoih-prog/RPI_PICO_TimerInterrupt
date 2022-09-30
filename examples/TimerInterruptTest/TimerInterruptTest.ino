@@ -48,6 +48,8 @@
 
 bool TimerHandler0(struct repeating_timer *t)
 { 
+  (void) t;
+  
   static bool toggle0 = false;
   static bool started = false;
 
@@ -70,6 +72,8 @@ bool TimerHandler0(struct repeating_timer *t)
 
 bool TimerHandler1(struct repeating_timer *t)
 { 
+  (void) t;
+  
   static bool toggle1 = false;
   static bool started = false;
 

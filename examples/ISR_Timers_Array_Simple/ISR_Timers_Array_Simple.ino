@@ -60,6 +60,8 @@ volatile uint32_t previousMillis5s = 0;
 
 bool TimerHandler(struct repeating_timer *t)
 {
+  (void) t;
+  
   static bool toggle  = false;
   static int timeRun  = 0;
 

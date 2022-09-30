@@ -44,6 +44,8 @@ RPI_PICO_Timer ITimer2(2);
 
 bool TimerHandler1(struct repeating_timer *t)
 {
+  (void) t;
+  
   static bool toggle1 = false;
 
 #if (TIMER_INTERRUPT_DEBUG > 0)
@@ -61,6 +63,8 @@ bool TimerHandler1(struct repeating_timer *t)
 
 bool TimerHandler2(struct repeating_timer *t)
 {
+  (void) t;
+  
   static bool toggle2 = false;
 
 #if (TIMER_INTERRUPT_DEBUG > 0)
