@@ -52,7 +52,7 @@ Arduino IDE version: 1.8.19
 RP2040 core v2.5.4
 RASPBERRY_PI_PICO Module
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.15.0-46-generic #49~20.04.1-Ubuntu SMP Thu Aug 4 19:15:44 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.15.0-48-generic #54~20.04.1-Ubuntu SMP Thu Sep 1 16:17:26 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered a crash while using this library
