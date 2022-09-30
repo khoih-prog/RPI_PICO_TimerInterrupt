@@ -26,7 +26,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.3.0
+  Version: 1.3.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -36,6 +36,7 @@
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
   1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error
   1.3.0   K.Hoang      25/09/2022 Fix severe bug affecting time between the starts
+  1.3.1   K.Hoang      29/09/2022 Using float instead of ulong for interval
 *****************************************************************************************************************************/
 
 #pragma once
@@ -55,13 +56,13 @@
 ////////////////////////////////////////////////////////////////
 
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.0"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.1"
   
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MAJOR      1
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      3
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      0
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      1
 
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003000  
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003001
 #endif
 
 ////////////////////////////////////////////////////////////////
@@ -182,7 +183,7 @@ class RPI_PICO_TimerInterrupt
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
-    bool setInterval(const unsigned long& interval, pico_timer_callback callback)
+    bool setInterval(const float& interval, pico_timer_callback callback)
     {
       return setFrequency((float) (1000000.0f / interval), callback);
     }
@@ -198,7 +199,7 @@ class RPI_PICO_TimerInterrupt
 
     // interval (in microseconds) and duration (in milliseconds). Duration = 0 or not specified => run indefinitely
     // No params and duration now. To be added in the future by adding similar functions here
-    bool attachInterruptInterval(const unsigned long& interval, pico_timer_callback callback)
+    bool attachInterruptInterval(const float& interval, pico_timer_callback callback)
     {
       return setFrequency( (float) ( 1000000.0f / interval), callback);
     }

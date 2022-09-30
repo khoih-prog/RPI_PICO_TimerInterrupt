@@ -220,7 +220,7 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 
 You can include these `.hpp` or `.h` files
 
-```
+```C++
 // Can be included as many times as necessary, without `Multiple Definitions` Linker Error
 #include "RPi_Pico_TimerInterrupt.h"      //https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
 
@@ -230,7 +230,7 @@ You can include these `.hpp` or `.h` files
 
 in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-```
+```C++
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include "RPi_Pico_ISR_Timer.h"           //https://github.com/khoih-prog/RPI_PICO_TimerInterrupt
 ```
@@ -271,7 +271,7 @@ Before using any Timer, you have to make sure the Timer has not been used by any
 
 ### 1.1 Init Hardware Timer
 
-```
+```C++
 // Select the timer you're using, from ITimer0(0)-ITimer3(3)
 // Init RPI_PICO_Timer
 RPI_PICO_Timer ITimer1(1);
@@ -281,7 +281,7 @@ RPI_PICO_Timer ITimer1(1);
 
 Use one of these functions with **interval in unsigned long microseconds**
 
-```   
+```C++
 // interval (in us), callback is ISR
 bool setInterval(unsigned long interval, pico_timer_callback callback);
 
@@ -291,7 +291,7 @@ bool attachInterruptInterval(unsigned long interval, pico_timer_callback callbac
 
 as follows
 
-```
+```C++
 void TimerHandler()
 {
   // Doing something here inside ISR
@@ -318,7 +318,7 @@ void setup()
 
 Use one of these functions with **frequency in float Hz**
 
-```
+```C++
 // frequency (in Hz), callback is ISR
 bool setFrequency(float frequency, pico_timer_callback callback)
 
@@ -328,7 +328,7 @@ bool attachInterrupt(float frequency, timer_callback callback);
 
 as follows
 
-```
+```C++
 void TimerHandler()
 {
   // Doing something here inside ISR
@@ -360,7 +360,7 @@ The 16 ISR_based Timers, designed for long timer intervals, only support using *
 
 ### 2.2 Init Hardware Timer and ISR-based Timer
 
-```
+```C++
 // Init RPI_PICO_Timer
 RPI_PICO_Timer ITimer1(1);
 
@@ -371,7 +371,7 @@ RPI_PICO_ISR_Timer ISR_timer;
 
 ### 2.3 Set Hardware Timer Interval and attach Timer Interrupt Handler functions
 
-```
+```C++
 void TimerHandler()
 {
   ISR_timer.run();
@@ -448,7 +448,7 @@ void setup()
 
 ### Example [ISR_Timers_Array_Simple](examples/ISR_Timers_Array_Simple)
 
-https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/f2ca9ced6ef985653cb234a3268b237b0fa257f1/examples/ISR_Timers_Array_Simple/ISR_Timers_Array_Simple.ino#L23-L166
+https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/blob/b7d8f4b4b7eabec8c140fc55d88efb82939a6ad6/examples/ISR_Timers_Array_Simple/ISR_Timers_Array_Simple.ino#L23-L168
 
 ---
 ---
@@ -462,9 +462,8 @@ The following is the sample terminal output when running example [ISR_Timers_Arr
 While software timer, **programmed for 2s, is activated after more than 10.000s !!!**
 
 ```
-
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
 [TISR] _count = 0-1000
@@ -489,7 +488,7 @@ The following is the sample terminal output when running example [TimerInterrupt
 
 ```
 Starting TimerInterruptTest on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 1.00
 [TISR] _count = 0-1000000
@@ -533,7 +532,7 @@ The following is the sample terminal output when running example [Change_Interva
 
 ```
 Starting Change_Interval on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 0, Clock (Hz) = 1000000.00, _fre (Hz) = 0.50
 [TISR] _count = 0-2000000
@@ -614,7 +613,7 @@ The following is the sample terminal output when running example [SwitchDebounce
 
 ```
 Starting SwitchDebounce on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 50.00
 [TISR] _count = 0-20000
@@ -639,7 +638,7 @@ The following is the sample terminal output when running example [ISR_Timers_Arr
 
 ```
 Starting ISR_Timers_Array_Simple on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 1000.00
 [TISR] _count = 0-1000
@@ -662,7 +661,7 @@ The following is the sample terminal output when running example [ISR_16_Timers_
 
 ```
 Starting ISR_16_Timers_Array_Complex on RASPBERRY_PI_PICO
-RPi_Pico_TimerInterrupt v1.3.0
+RPi_Pico_TimerInterrupt v1.3.1
 CPU Frequency = 125 MHz
 [TISR] _timerNo = 1, Clock (Hz) = 1000000.00, _fre (Hz) = 100.00
 [TISR] _count = 0-10000
@@ -815,7 +814,7 @@ Debug is enabled by default on Serial.
 
 You can also change the debugging level (_TIMERINTERRUPT_LOGLEVEL_) from 0 to 4
 
-```cpp
+```C++
 // These define's must be placed at the beginning before #include "RPI_PICO_TimerInterrupt.h"
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the system.
@@ -850,15 +849,17 @@ Submit issues to: [RPI_PICO_TimerInterrupt issues](https://github.com/khoih-prog
 
 ## DONE
 
-1. Basic hardware timers for **RP2040-based boards such as RASPBERRY_PI_PICO**, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
-2. More hardware-initiated software-enabled timers
-3. Longer time interval
-4. Add Version String 
-5. Add Table of Contents
-6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, Nano_RP2040_Connect, etc.**) using the arduino-pico core
-7. Fix `multiple-definitions` linker error
-8. Optimize library code by using `reference-passing` instead of `value-passing`
-9. Fix severe bug affecting time between the starts. Check [Enable fixed timing between timer calls (vs fixed time btw. end of timer call and next call as implemented) #3](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues/3)
+ 1. Basic hardware timers for **RP2040-based boards such as RASPBERRY_PI_PICO**, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico)
+ 2. More hardware-initiated software-enabled timers
+ 3. Longer time interval
+ 4. Add Version String 
+ 5. Add Table of Contents
+ 6. Add support to new boards (**ADAFRUIT_ITSYBITSY_RP2040, ADAFRUIT_QTPY_RP2040, ADAFRUIT_STEMMAFRIEND_RP2040, ADAFRUIT_TRINKEYQT_RP2040, ADAFRUIT_MACROPAD_RP2040, SPARKFUN_PROMICRO_RP2040, Nano_RP2040_Connect, etc.**) using the arduino-pico core
+ 7. Fix `multiple-definitions` linker error
+ 8. Optimize library code by using `reference-passing` instead of `value-passing`
+ 9. Fix severe bug affecting time between the starts. Check [Enable fixed timing between timer calls (vs fixed time btw. end of timer call and next call as implemented) #3](https://github.com/khoih-prog/RPI_PICO_TimerInterrupt/issues/3)
+10. Using `float` instead of `ulong` for better interval accuracy
+
 
 ---
 ---

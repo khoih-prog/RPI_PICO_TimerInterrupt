@@ -25,7 +25,7 @@
   Based on BlynkTimer.h
   Author: Volodymyr Shymanskyy
 
-  Version: 1.3.0
+  Version: 1.3.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -35,6 +35,7 @@
   1.1.1   K Hoang      22/10/2021 Fix platform in library.json for PIO
   1.2.0   K.Hoang      21/01/2022 Fix `multiple-definitions` linker error
   1.3.0   K.Hoang      25/09/2022 Fix severe bug affecting time between the starts
+  1.3.1   K.Hoang      29/09/2022 Using float instead of ulong for interval
 *****************************************************************************************************************************/
 
 #pragma once
@@ -56,13 +57,13 @@
 ////////////////////////////////////////////////////////////////
 
 #ifndef RPI_PICO_TIMER_INTERRUPT_VERSION
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.0"
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION       "RPi_Pico_TimerInterrupt v1.3.1"
   
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MAJOR      1
   #define RPI_PICO_TIMER_INTERRUPT_VERSION_MINOR      3
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      0
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_PATCH      1
 
-  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003000  
+  #define RPI_PICO_TIMER_INTERRUPT_VERSION_INT        1003001  
 #endif
 
 ////////////////////////////////////////////////////////////////
@@ -111,35 +112,35 @@ class RPI_PICO_ISR_Timer
     // Timer will call function 'f' every 'd' milliseconds forever
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setInterval(const unsigned long& d, timer_callback f);
+    int setInterval(const float& d, timer_callback f);
 
     // Timer will call function 'f' with parameter 'p' every 'd' milliseconds forever
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setInterval(const unsigned long& d, timer_callback_p f, void* p);
+    int setInterval(const float& d, timer_callback_p f, void* p);
 
     // Timer will call function 'f' after 'd' milliseconds one time
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setTimeout(const unsigned long& d, timer_callback f);
+    int setTimeout(const float& d, timer_callback f);
 
     // Timer will call function 'f' with parameter 'p' after 'd' milliseconds one time
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setTimeout(const unsigned long& d, timer_callback_p f, void* p);
+    int setTimeout(const float& d, timer_callback_p f, void* p);
 
     // Timer will call function 'f' every 'd' milliseconds 'n' times
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setTimer(const unsigned long& d, timer_callback f, const unsigned& n);
+    int setTimer(const float& d, timer_callback f, const unsigned& n);
 
     // Timer will call function 'f' with parameter 'p' every 'd' milliseconds 'n' times
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setTimer(const unsigned long& d, timer_callback_p f, void* p, const unsigned& n);
+    int setTimer(const float& d, timer_callback_p f, void* p, const unsigned& n);
 
     // updates interval of the specified timer
-    bool changeInterval(const unsigned& numTimer, const unsigned long& d);
+    bool changeInterval(const unsigned& numTimer, const float& d);
 
     // destroy the specified timer
     void deleteTimer(const unsigned& numTimer);
@@ -183,7 +184,7 @@ class RPI_PICO_ISR_Timer
     // low level function to initialize and enable a new timer
     // returns the timer number (numTimer) on success or
     // -1 on failure (f == NULL) or no free timers
-    int setupTimer(const unsigned long& d, void* f, void* p, bool h, const unsigned& n);
+    int setupTimer(const float& d, void* f, void* p, bool h, const unsigned& n);
 
     // find the first available slot
     int findFirstFreeSlot();
@@ -194,7 +195,7 @@ class RPI_PICO_ISR_Timer
       void*         callback;           // pointer to the callback function
       void*         param;              // function parameter
       bool          hasParam;           // true if callback takes a parameter
-      unsigned long delay;              // delay value
+      float         delay;              // delay value
       unsigned      maxNumRuns;         // number of runs to be executed
       unsigned      numRuns;            // number of executed runs
       bool          enabled;            // true if enabled
